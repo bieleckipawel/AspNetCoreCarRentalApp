@@ -29,7 +29,7 @@ namespace CarRentalApp.Controllers
 
         private static IList<Customer> customers = new List<Customer>
         {
-            new Customer() { Id = 1, Name = "John Doe", PhoneNumber = "123456789" },
+            new Customer() { Id = 1, Name = "John Doe", PhoneNumber = "123456789", HasRentedCar = true},
             new Customer() { Id = 2, Name = "Jane Doe", PhoneNumber = "987654321" },
             new Customer() { Id = 3, Name = "John Smith", PhoneNumber = "123123123" },
             new Customer() { Id = 4, Name = "Jane Smith", PhoneNumber = "321321321" },
@@ -188,6 +188,7 @@ namespace CarRentalApp.Controllers
             rental1.Car = cars.FirstOrDefault(x => x.Id == rental.SelectedCarId);
             cars.FirstOrDefault(x => x.Id == rental.SelectedCarId).Available = false;
             rental1.Customer = customers.FirstOrDefault(x => x.Id == rental.SelectedCustomerId);
+            customers.FirstOrDefault(x => x.Id == rental.SelectedCustomerId).HasRentedCar = true;
             rental1.RentDate = rental.RentDate;
             rental1.ReturnDate = rental.ReturnDate;
             rental1.TotalPrice = (rental.ReturnDate - rental.RentDate).Days * rental1.Car.Price;
@@ -207,6 +208,7 @@ namespace CarRentalApp.Controllers
             Rental rental1 = rentals.FirstOrDefault(x => x.Id == id);
             rentals.Remove(rental1);
             cars.FirstOrDefault(x => x.Id == rental1.Car.Id).Available = true;
+            customers.FirstOrDefault(x => x.Id == rental1.Customer.Id).HasRentedCar = false;
             return RedirectToAction("Rentals");
 
         }
