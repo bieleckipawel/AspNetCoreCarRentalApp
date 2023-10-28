@@ -1,0 +1,47 @@
+﻿@model IEnumerable<CarRentalApp.Models.Customer>
+
+@{
+    ViewData["Title"] = "Customers";
+}
+
+<h1>Customers</h1>
+
+<p>
+    <a asp-action="CreateCustomer">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Phone number
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditCustomer", new { id=item.Id  }) |
+                @Html.ActionLink("Details", "DetailsCustomer", new { id=item.Id  }) |
+                @Html.ActionLink("Delete", "DeleteCustomer", new { id=item.Id  })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

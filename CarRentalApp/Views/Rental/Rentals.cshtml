@@ -1,0 +1,64 @@
+﻿@model IEnumerable<CarRentalApp.Models.Rental>
+
+@{
+    ViewData["Title"] = "Rentals";
+}
+
+<h1>Rentals</h1>
+
+<p>
+    <a asp-action="CreateRental">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                ID
+                </th>
+            <th>
+                Rented car
+                </th>
+            <th>
+                Rented by
+            </th>
+            <th>
+                Rent date
+            </th>
+            <th>
+                Return date
+            </th>
+            <th>
+                Total price
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Car.Make) @Html.DisplayFor(modelItem => item.Car.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReturnDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPrice)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "DetailsRental", new {  id=item.Id  }) |
+                @Html.ActionLink("Return", "DeleteRental", new {  id=item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

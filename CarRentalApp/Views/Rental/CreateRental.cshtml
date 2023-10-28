@@ -1,0 +1,63 @@
+﻿@model ViewModels.RentalViewModel
+
+@{
+    ViewData["Title"] = "CreateRental";
+}
+
+<h1>Create Rental</h1>
+
+<h4>Rental</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateRental">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SelectedCustomerId" class="control-label">Select a customer</label>
+                <select asp-for="SelectedCustomerId" class="form-control">
+                    <option value="">Select a customer</option>
+                    @foreach (var cust in Model.Customers)
+                    {
+                        <option value="@cust.Id">@cust.Name (@cust.PhoneNumber)</option>
+                    }
+                </select>
+                <span asp-validation-for="SelectedCustomerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedCarId" class="control-label">Select a car</label>
+                <select asp-for="SelectedCarId" class="form-control">
+                    <option value="">Select a car</option>
+                    @foreach (var car in Model.AvailableCars.Where(car => car.Available))
+                    {
+                        <option value="@car.Id">@car.MfYear @car.Make @car.Model (@car.Price USD/day)</option>
+                    }
+                </select>
+                <span asp-validation-for="SelectedCarId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RentDate" class="control-label"></label>
+                <input asp-for="RentDate" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm")"/>
+                <span asp-validation-for="RentDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReturnDate" class="control-label"></label>
+                <input asp-for="ReturnDate" class="form-control" value="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd HH:mm")"/>
+                <span asp-validation-for="ReturnDate" class="text-danger"></span>
+            </div>
+            
+            
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Rentals">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
